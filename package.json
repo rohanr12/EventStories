@@ -1,0 +1,24 @@
+{
+  "name": "eventstories",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rohanr12/EventStories.git"
+  },
+  "author": "rohanr12",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rohanr12/EventStories/issues"
+  },
+  "homepage": "https://github.com/rohanr12/EventStories#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "pug": "^2.0.3"
+  }
+}

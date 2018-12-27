@@ -1,0 +1,13 @@
+extends landing
+
+block content
+    h2 Create a new event
+    form(action="/events" method="post")
+        label(for="event") Event
+            input(id="event" type="text" name="eventName" autofocus)
+        label(for="url") Image
+            input(id="url" type="text" name="eventImage")
+        button(type="submit") Submit
+
+
+

@@ -1,0 +1,23 @@
+extends landing
+block content
+    .container    
+        header.jumbotron
+            .container
+                h1 This is the events landing page
+                p Find details of all your favourite events here
+                div    
+                    a(href="/").btn.btn-primary.btn-large.btn-space Go back to landing page
+                div.mt-3
+                    a(href="/events/new").btn.btn-secondary.btn-large.btn-space Add new event
+        div.row
+            each event in events
+                .col-md-3.col-sm-6.d-flex.align-items-stretch
+                    .card
+                        img(src=event.img alt="Image").card-img-top
+                        .card-body  
+                            h4.card-title=event.name
+                            p.card-text Information about this event
+
+
+
+                                    
