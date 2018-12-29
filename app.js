@@ -1,31 +1,38 @@
 var express= require('express');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
 
 var app = express();
-
 
 app.set('view engine','pug');
 app.use(bodyParser.urlencoded({extended: true}));
 
-events=[
-    {name: "Rock Concert", img: "https://bit.ly/2Sk0W2o"},
-    {name: "Cookery Show", img: "https://bit.ly/2Ct1Bc6"},  
-    {name: "Informative workshop", img: "https://bit.ly/2EJP1aC"},
-    {name: "Rock Concert", img: "https://bit.ly/2Sk0W2o"},
-    {name: "Cookery Show", img: "https://bit.ly/2Ct1Bc6"},  
-    {name: "Informative workshop", img: "https://bit.ly/2EJP1aC"},
+mongoose.connect("mongodb://localhost:27017/event_stories", {useNewUrlParser: true });
 
-    {name: "Rock Concert", img: "https://bit.ly/2Sk0W2o"},
-    {name: "Cookery Show", img: "https://bit.ly/2Ct1Bc6"},  
-    {name: "Informative workshop", img: "https://bit.ly/2EJP1aC"}
-];
+var eventSchema = new mongoose.Schema({
+    name: {type: String, unique: true},
+    image: String    
+});
+
+var Event = mongoose.model("Event", eventSchema);
+
+
 app.get('/', function(req, res){
     res.render("landing");
 });
 
 
 app.get('/events', function(req, res){
-    res.render('events', {events: events});
+    Event.find({}, function(err, events){
+        if(err){
+            console.log(err);
+        }
+        else{
+            console.log("Events Retrieved");
+            res.render('events', {events: events})
+        }
+    });
+    //res.render('events', {events: Event});
 });
 
 app.get('/events/new', function(req, res){
@@ -36,9 +43,17 @@ app.post('/events', function(req, res){
     var eventName = req.body.eventName;
     var eventImage = req.body.eventImage;
 
-    events.push({
+    Event.create({
         name: eventName,
-        img: eventImage
+        image: eventImage
+    }, function(err, event){
+        if(err){
+            console.log(err);
+        }
+        else{
+            console.log('Event successfully created');
+            console.log(event);
+        }
     });
     res.redirect('/events');
 })
