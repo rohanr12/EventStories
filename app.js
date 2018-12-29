@@ -8,10 +8,13 @@ app.set('view engine','pug');
 app.use(bodyParser.urlencoded({extended: true}));
 
 mongoose.connect("mongodb://localhost:27017/event_stories", {useNewUrlParser: true });
+mongoose.set('useCreateIndex', true);
+
 
 var eventSchema = new mongoose.Schema({
     name: {type: String, unique: true},
-    image: String    
+    image: String,
+    description: String,
 });
 
 var Event = mongoose.model("Event", eventSchema);
@@ -32,20 +35,34 @@ app.get('/events', function(req, res){
             res.render('events', {events: events})
         }
     });
-    //res.render('events', {events: Event});
+
 });
 
 app.get('/events/new', function(req, res){
     res.render('new');
-})
+});
+
+app.get('/events/:id', function(req, res){
+    Event.findById(req.params.id, function(err, foundEvent){
+        if(err){
+            console.log(err);
+        }
+        else{
+            res.render('show',{event: foundEvent});    
+        }
+    })
+    
+});
 
 app.post('/events', function(req, res){
     var eventName = req.body.eventName;
     var eventImage = req.body.eventImage;
+    var eventDesc = req.body.description;
 
     Event.create({
         name: eventName,
-        image: eventImage
+        image: eventImage,
+        description: eventDesc,
     }, function(err, event){
         if(err){
             console.log(err);

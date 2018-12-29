@@ -16,7 +16,8 @@ block content
                         img(src=event.image alt="Image").card-img-top
                         .card-body  
                             h4.card-title=event.name
-                            p.card-text Information about this event
+                            - var eventURL = "/events/" + event._id
+                            a(href=eventURL).btn.btn-primary More Info
 
 
 
