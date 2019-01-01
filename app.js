@@ -1,6 +1,8 @@
 var express= require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var Event = require('./models/event');  
+var seedDB = require('./seed');
 
 var app = express();
 
@@ -10,15 +12,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 mongoose.connect("mongodb://localhost:27017/event_stories", {useNewUrlParser: true });
 mongoose.set('useCreateIndex', true);
 
-
-var eventSchema = new mongoose.Schema({
-    name: {type: String, unique: true},
-    image: String,
-    description: String,
-});
-
-var Event = mongoose.model("Event", eventSchema);
-
+seedDB();
 
 app.get('/', function(req, res){
     res.render("landing");
