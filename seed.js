@@ -37,31 +37,38 @@ var data = [
 
 
 function seedDB(){
-    Event.remove({}, function(err){
+    Event.deleteMany({}, function(err){
         if(err){
             console.log(err);
         }
         console.log("Removed all events");
-        data.forEach(function(event){
-            Event.create(event, function(err, createdEvent){
-                if(err){
-                    console.log(err);
-                }
-                console.log("Event created" + createdEvent.name);
-                Comment.create({
-                    text: "This place is sophisticated but not sophisticated enough for me.",
-                    author: "Bruce Wayne",
-                }, function(err, comment){
+        Comment.deleteMany({}, function(err){
+            if(err){
+                console.log(err);
+            }
+            
+            data.forEach(function(event){
+                Event.create(event, function(err, createdEvent){
                     if(err){
                         console.log(err);
                     }
-                    else{
-                        createdEvent.comments.push(comment);
-                        createdEvent.save();
-                        console.log("Created new comment");
-                    }
+                    console.log("Event created" + createdEvent.name);
+                    Comment.create({
+                        text: "This place is sophisticated but not sophisticated enough for me.",
+                        author: "Bruce Wayne",
+                    }, function(err, comment){
+                        if(err){
+                            console.log(err);
+                        }
+                        else{
+                            createdEvent.comments.push(comment);
+                            createdEvent.save();
+                            console.log("Created new comment");
+                        }
+                    });
                 });
             });
+
         });
     });
 }
