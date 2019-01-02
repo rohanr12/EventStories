@@ -26,23 +26,23 @@ app.get('/events', function(req, res){
         }
         else{
             console.log("Events Retrieved");
-            res.render('events', {events: events})
+            res.render('events/index', {events: events})
         }
     });
 
 });
 
 app.get('/events/new', function(req, res){
-    res.render('new');
+    res.render('events/new');
 });
 
 app.get('/events/:id', function(req, res){
-    Event.findById(req.params.id, function(err, foundEvent){
+    Event.findById(req.params.id).populate("comments").exec(function(err, foundEvent){
         if(err){
             console.log(err);
         }
         else{
-            res.render('show',{event: foundEvent});    
+            res.render('events/show',{event: foundEvent});    
         }
     })
     
@@ -68,6 +68,29 @@ app.post('/events', function(req, res){
     });
     res.redirect('/events');
 })
+
+//Comment Routes
+
+app.get('/events/:id/comments/new', function(req, res){
+    Event.findById(req.params.id, function(err, foundEvent){
+        if(err){
+            console.log(err);
+        }
+        else{
+            res.render("comments/new", {event: foundEvent});
+        }
+    });
+});
+
+//Find event by the id
+//get data from the form
+//Create a new comment using Comment model
+//push new comment into comments array of retrieved event
+
+app.post("/events/:id/comments", function(req, res){
+    
+})
+
 
 if (app.get('env') === 'development') {
   app.locals.pretty = true;

@@ -1,0 +1,10 @@
+extends ../landing
+
+block content
+    h1=event.name
+    img(src=event.image alt="Not Found")
+    p=event.description
+    each comment in event.comments
+        p 
+            strong #{comment.author} -
+            | #{comment.text}
