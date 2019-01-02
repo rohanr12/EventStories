@@ -5,7 +5,7 @@ block content
         .mt-5
             h2(style="text-align: center;") Post comment to #{event.name}
         div(style="width: 45%;").mx-auto.mt-4
-            form(action="/events/" + #{event._id} + "/comments/" method="post")
+            form(action="/events/" + event._id + "/comments/" method="post")
                 .form-group.row
                     label(for="text").col-sm-2.col-form-label Text
                     .col-sm-10
@@ -16,4 +16,4 @@ block content
                         input(placeholder="Enter author" id="author" type="text" name="comment[author]").form-control
                 .form-group
                     button(type="submit").btn.btn-lg.btn-primary.btn-block Submit
-            a(href="/events") Go back  
+            a(href="/events/" + event._id) Go back  

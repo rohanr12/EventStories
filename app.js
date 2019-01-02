@@ -1,7 +1,8 @@
 var express= require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-var Event = require('./models/event');  
+var Event = require('./models/event');
+var Comment = require('./models/comment');
 var seedDB = require('./seed');
 
 var app = express();
@@ -82,14 +83,24 @@ app.get('/events/:id/comments/new', function(req, res){
     });
 });
 
-//Find event by the id
-//get data from the form
-//Create a new comment using Comment model
-//push new comment into comments array of retrieved event
-
 app.post("/events/:id/comments", function(req, res){
-    
-})
+    Event.findById(req.params.id, function(err, foundEvent){
+        if(err){
+            console.log(err);
+        }
+        Comment.create(req.body.comment, function(err, createdComment){
+            if(err){
+                console.log(err);
+            }
+            else{
+                console.log("Comment created");
+                foundEvent.comments.push(createdComment);
+                foundEvent.save();
+                res.redirect("/events/"+ req.params.id);
+            }
+        });
+    });  
+});
 
 
 if (app.get('env') === 'development') {
