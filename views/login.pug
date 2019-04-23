@@ -1,0 +1,21 @@
+extends ./landing
+block content
+    div(style="height: 100vh").container
+        div(style="height: 70%").row.justify-content-center
+            .col-8.align-self-center
+                h1(style="text-align: center") Login
+                p(style="font-size: 1.25rem; text-align: center") Please login to get access to all events
+                form(method='post' action='/login' style="width: 100%")
+                    .form-group
+                        input(placeholder='Enter username' type='text' id="username" name="username").form-control
+                    .form-group
+                        input(placeholder='Enter password' type='password' id="password" name="password").form-control
+                    .form-group.my-2
+                        button(type='submit').form-control.btn.btn-primary Submit
+                    .form-group
+                        a(href='/').form-control.btn.btn-secondary.btn-danger Cancel
+                    .form-group(style="text-align: center")
+                        a(href="/register") Don't have an account? Please Sign Up!
+                
+
+            
