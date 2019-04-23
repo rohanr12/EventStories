@@ -52,7 +52,7 @@ function seedDB(){
                     if(err){
                         console.log(err);
                     }
-                    console.log("Event created" + createdEvent.name);
+                    console.log("Event created " + createdEvent.name);
                     Comment.create({
                         text: "This place is sophisticated but not sophisticated enough for me.",
                         author: "Bruce Wayne",
