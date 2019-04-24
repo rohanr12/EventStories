@@ -11,6 +11,9 @@ block content
                         img(src=event.image alt="Not Found" style="width: 50%").card-img-top
                     .row.my-3.justify-content-center
                         p=event.description
+                    .row.my-3.justify-content-center
+                        em
+                            p Submitted by #{event.author.username}
                     .row
                         a.btn.btn-success(href="/events/"+ event._id+ "/comments/new") Post a comment
                     each comment in event.comments
@@ -18,5 +21,5 @@ block content
                             div.card(style="width: 100%; background-color: #DEDEDE")
                                 .card-body
                                     p.mb-0 
-                                        strong #{comment.author}
+                                        strong #{comment.author.username}
                                     p.my-0 #{comment.text}

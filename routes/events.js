@@ -35,11 +35,15 @@ router.post('/', ensureAuthenticated, function(req, res){
     var eventName = req.body.eventName;
     var eventImage = req.body.eventImage;
     var eventDesc = req.body.description;
-
+    var author = {
+        id: req.user._id,
+        username: req.user.username
+    }
     Event.create({
         name: eventName,
         image: eventImage,
         description: eventDesc,
+        author: author
     }, function(err, event){
         if(err){
             console.log(err);
@@ -76,6 +80,9 @@ router.post("/:id/comments", ensureAuthenticated, function(req, res){
             }
             else{
                 console.log("Comment created");
+                createdComment.author.id = req.user._id;
+                createdComment.author.username = req.user.username;
+                createdComment.save();
                 foundEvent.comments.push(createdComment);
                 foundEvent.save();
                 return res.redirect("/events/"+ req.params.id);
