@@ -9,9 +9,14 @@ nav
         a(href="/").navbar-brand EventStories
         .collapse.navbar-collapse
             ul.navbar-nav.ml-auto
-                li.nav-item
-                    a(href="/login").nav-link Login
-                li.nav-item
-                    a(href="/register").nav-link Sign Up
-                li.nav-item
-                    a(href="/logout").nav-link Log Out
+                if user
+                    li.nav-item
+                        a(href='#').nav-link Logged in as #{user.username}
+                    li.nav-item
+                        a(href="/logout").nav-link Log Out
+                else if !user
+                    li.nav-item
+                        a(href="/login").nav-link Login
+                    li.nav-item
+                        a(href="/register").nav-link Sign Up
+                    

@@ -1,11 +1,22 @@
 extends ../landing
 
 block content
-    h1=event.name
-    img(src=event.image alt="Not Found")
-    p=event.description
-    a.btn.btn-success(href="/events/"+ event._id+ "/comments/new") Post a comment
-    each comment in event.comments
-        p 
-            strong #{comment.author} -
-            | #{comment.text}
+    .container
+        .row.justify-content-center
+            .row
+                h1=event.name
+            div(style="background-color: #F7F7F7").card
+                .card-body
+                    .row.justify-content-center
+                        img(src=event.image alt="Not Found" style="width: 50%").card-img-top
+                    .row.my-3.justify-content-center
+                        p=event.description
+                    .row
+                        a.btn.btn-success(href="/events/"+ event._id+ "/comments/new") Post a comment
+                    each comment in event.comments
+                        .row
+                            div.card(style="width: 100%; background-color: #DEDEDE")
+                                .card-body
+                                    p.mb-0 
+                                        strong #{comment.author}
+                                    p.my-0 #{comment.text}

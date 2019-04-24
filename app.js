@@ -33,9 +33,13 @@ passport.deserializeUser(User.deserializeUser());
 
 seedDB();
 
+app.use(function(req, res, next){
+    res.locals.user = req.user;
+    next();
+});
+
 app.use('/', require('./routes/index'));
 app.use('/events', require('./routes/events'));
-
 
 if (app.get('env') === 'development') {
   app.locals.pretty = true;
