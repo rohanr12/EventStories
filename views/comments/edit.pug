@@ -1,0 +1,15 @@
+extends ../landing
+
+block content
+    .container
+        .mt-5
+            h2(style="text-align: center;") Edit comment on #{event.name}
+        div(style="width: 45%;").mx-auto.mt-4
+            form(action="/events/" + event._id + "/comments/" + comment._id + "?_method=PUT" method="post")
+                .form-group.row
+                    label(for="text").col-sm-2.col-form-label Text
+                    .col-sm-10
+                        input(value=comment.text id="text" type="text" name="comment[text]" autofocus).form-control
+                .form-group
+                    button(type="submit").btn.btn-lg.btn-primary.btn-block Submit
+            a(href="/events/" + event._id) Go back  

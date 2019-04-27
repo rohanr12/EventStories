@@ -142,4 +142,75 @@ router.post("/:id/comments", ensureAuthenticated, function(req, res){
     });  
 });
 
+router.get('/:id/comments/:comment_id/edit', ensureAuthenticated, (req, res)=>{
+    Event.findById(req.params.id)
+            .exec()
+            .then(async (foundEvent)=>{
+                try{
+                    var foundComment = await Comment.findById(req.params.comment_id).exec();
+                    console.log(foundComment);
+                }
+                finally{
+                    return res.render('comments/edit', {event: foundEvent, comment: foundComment});
+                }
+            })
+            .catch(err=>{
+                console.log(err);
+                return res.redirect('back');
+            })
+});
+
+router.put('/:id/comments/:comment_id', async (req, res)=>{
+    try{
+        var retrievedEvent = await Event.findById(req.params.id).populate('comments');
+        for(var i in retrievedEvent.comments){
+            console.log(i);
+            var commentObj = retrievedEvent.comments[i];
+            console.log(commentObj.author.id);
+            if(commentObj._id.toString() === req.params.comment_id){
+                console.log('Equality achieved');
+            }
+        }
+        retrievedEvent.comments[i].text = req.body.comment.text;
+        commentObj.save();
+        console.log(retrievedEvent)
+    }
+    catch(err){
+        console.log(err);
+        res.redirect('back');
+    }
+    finally{        
+        console.log('Successfully updated comment');
+        return res.render('events/show', {event: retrievedEvent});
+    }
+})
+
+router.delete('/:id/comments/:comment_id', (req, res)=>{
+    Event.findById(req.params.id)
+            .exec()
+            .then(async retrievedEvent=>{
+                try{
+                    let commentsArray = retrievedEvent.comments;
+                    for(var i in commentsArray){
+                        let commentID = commentsArray[i];
+                        if(commentID.toString() === req.params.comment_id){
+                            break;
+                        }
+                    }
+                    retrievedEvent.comments.splice(i, 1);
+                    retrievedEvent.save();
+                    let deletedComment = await Comment.findByIdAndDelete(req.params.comment_id);
+                    console.log('Comment deleted');
+                    console.log(deletedComment);
+                }
+                catch(err){
+                    console.log(err);
+                }
+                finally{
+                    return res.redirect('/events/'+ retrievedEvent._id);
+                }
+            })
+    
+})
+
 module.exports = router;
