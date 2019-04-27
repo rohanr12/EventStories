@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-
+mongoose.set('useFindAndModify', false);
 var commentSchema = new mongoose.Schema({
     text: String,
     author: {

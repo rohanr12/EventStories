@@ -1,0 +1,25 @@
+extends ../landing
+
+block content
+    .container
+        .mt-5
+            h2(style="text-align: center;") Edit an event
+        div(style="width: 45%;").mx-auto.mt-4
+            form(action="/events/"+event._id+"?_method=PUT" method="POST")
+                .form-group.row
+                    label(for="event").col-sm-2.col-form-label Event
+                    .col-sm-10
+                        input(id="event" type="text" name="event[name]" autofocus value=event.name).form-control
+                .form-group.row   
+                    label(for="url").col-sm-2.col-form-label Image
+                    .col-sm-10
+                        input(id="url" type="text" name="event[image]" value=event.image).form-control
+                .form-group.row   
+                    label(for="description").col-sm-2.col-form-label Description
+                    .col-sm-10
+                        input(id="description" type="text" name="event[description]" value=event.description).form-control
+                .form-group
+                    button(type="submit").btn.btn-lg.btn-primary.btn-block Submit
+            a(href="/events/"+event._id) Go back  
+
+

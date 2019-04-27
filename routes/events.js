@@ -4,6 +4,8 @@ var Event = require('../models/event');
 var Comment = require('../models/comment');
 var { ensureAuthenticated } = require('../auth');
 
+//Event routes
+
 router.get('/', ensureAuthenticated, function(req, res){
     Event.find({}, function(err, events){
         if(err){
@@ -55,6 +57,55 @@ router.post('/', ensureAuthenticated, function(req, res){
     });
     return res.redirect('/events');
 })
+
+router.get('/:id/edit', ensureAuthenticated, (req, res)=>{
+    Event.findById(req.params.id)
+                .exec()
+                .then(foundEvent=>{
+                    return res.render('events/edit', {event: foundEvent})
+                })
+                .catch(err=>{
+                    console.log(err);
+                    return res.redirect('back');
+                })
+});
+
+router.put('/:id', ensureAuthenticated, (req, res)=>{
+    Event.findByIdAndUpdate(req.params.id, req.body.event)
+            .exec()
+            .then(updatedEvent=>{
+                console.log('event updated!');
+                console.log(updatedEvent);
+                return res.redirect('/events/'+req.params.id);
+            })
+            .catch(err=>{
+                console.log(err);
+                return res.redirect('back');
+            });
+});
+
+router.delete('/:id', (req, res)=>{
+    Event.findByIdAndDelete(req.params.id)
+            .exec()
+            .then(async deletedEvent=>{
+                try{
+                    var count = 0;
+                    for(i in deletedEvent.comments){
+                        let commentID = deletedEvent.comments[i];
+                        let deletedComment = await Comment.findByIdAndDelete(commentID);
+                        console.log("Comment Deleted!");
+                        console.log(deletedComment.text);
+                        count++;
+                    }
+                }
+                catch(err){
+                    console.log(err);
+                    return res.redirect('/events');
+                }
+                console.log('Number of comments deleted: '+count);
+                return res.redirect('/events');
+            })  
+});
 
 //Comment Routes
 

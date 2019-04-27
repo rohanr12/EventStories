@@ -3,23 +3,39 @@ extends ../landing
 block content
     .container
         .row.justify-content-center
-            .row
+            .col-3
+            .col-6(style="text-align: center")
                 h1=event.name
+            .col-3
+                    .my-2
+                    a.btn.btn-xs.btn-warning(href="/events/"+event._id+"/edit") Edit
+                    form(action="/events/"+event._id+"?_method=DELETE" method="post" style="display: inline")
+                        button(type="submit").btn.btn-xs.btn-danger Delete
+        .row.justify-content-center
             div(style="background-color: #F7F7F7").card
                 .card-body
                     .row.justify-content-center
-                        img(src=event.image alt="Not Found" style="width: 50%").card-img-top
+                        img(src=event.image alt="Not Found" style="width: 60%").card-img-top
                     .row.my-3.justify-content-center
                         p=event.description
                     .row.my-3.justify-content-center
                         em
                             p Submitted by #{event.author.username}
                     .row
-                        a.btn.btn-success(href="/events/"+ event._id+ "/comments/new") Post a comment
+                        a.btn.btn-xs.btn-success(href="/events/"+ event._id+ "/comments/new") Post a comment
+
                     each comment in event.comments
                         .row
                             div.card(style="width: 100%; background-color: #DEDEDE")
                                 .card-body
-                                    p.mb-0 
-                                        strong #{comment.author.username}
-                                    p.my-0 #{comment.text}
+                                    .row.justify-content-end
+                                        .col-11
+                                            p.mb-0 
+                                                strong #{comment.author.username}
+                                            p.my-0 #{comment.text}
+                                        .col-1
+                                                a(href="/edit").mr-3
+                                                    img(src="https://image.flaticon.com/icons/svg/1159/1159633.svg" width="20")
+                                                a(href="/delete")
+                                                    img(src="https://image.flaticon.com/icons/svg/1214/1214428.svg" width="20")
+                                        

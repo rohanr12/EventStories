@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-
+mongoose.set('useFindAndModify', false);
 var eventSchema = new mongoose.Schema({
     name: {type: String, unique: true},
     image: String,

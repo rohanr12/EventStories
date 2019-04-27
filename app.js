@@ -7,6 +7,7 @@ var seedDB = require('./seed');
 var User = require('./models/user');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var methodOverride = require('method-override');
 var app = express();
 
 //Settings
@@ -17,6 +18,7 @@ mongoose.connect("mongodb://localhost:27017/event_stories", {useNewUrlParser: tr
 mongoose.set('useCreateIndex', true);
 
 //Middleware
+app.use(methodOverride('_method'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(session({
     secret: 'shhhh',

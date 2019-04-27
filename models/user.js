@@ -4,7 +4,7 @@ var userSchema = new mongoose.Schema({
     username: String,
     email: String
 });
-
+mongoose.set('useFindAndModify', false);
 var options = {
     errorMessages: {
         MissingPasswordError: 'No password was given',
