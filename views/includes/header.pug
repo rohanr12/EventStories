@@ -1,20 +1,28 @@
 head
     title EventStories
+    script(src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous")
+    link(href="https://fonts.googleapis.com/css?family=Fira+Sans:700|Ubuntu&display=swap" rel="stylesheet")
     link(rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous")
+    script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous")
 
 
 nav
-    .navbar.navbar-dark.bg-dark.navbar-expand-sm
+    .navbar.navbar-dark.navbar-expand-sm(style="background-color: #000000 ;")
 
-        a(href="/").navbar-brand EventStories
+        a(href="/").navbar-brand
+            img(src="/images/logo.svg" width="30" height="30")
         .collapse.navbar-collapse
             ul.navbar-nav.ml-auto
                 if user
+                    li.nav-item
+                        a(href="/events").nav-link View All Events
                     li.nav-item
                         a(href='#').nav-link Logged in as #{user.username}
                     li.nav-item
                         a(href="/logout").nav-link Log Out
                 else if !user
+                    li.nav-item
+                        a(href="/events").nav-link View All Events
                     li.nav-item
                         a(href="/login").nav-link Login
                     li.nav-item

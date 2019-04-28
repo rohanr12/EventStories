@@ -4,6 +4,40 @@ html
 
     body
         block content
+            .container-fluid.p-0(style="overflow: hidden; height: 88vh; position: relative")
+                form(method='get' action='#' style="position: absolute; z-index: 10; margin-top: 20%; margin-left: 37%; margin-right: 37%; width: 500px")
+                    .form-group
+                        input(placeholder='Search for events that interest you' type='text' name='query').form-control
+                    .form-group
+                        button(type='submit').form-control.btn.btn-success Search
+                .carousel.slide.carousel-fade(data-ride="carousel" id="main-slider")
+                    .carousel-inner
 
-            a(href="/events") View Events
+                        .carousel-item.active
+                            .carousel-caption(style="margin-bottom: 47em")
+                                h1(style="font-family: 'Fira Sans', sans-serif; text-align: center; font-size: 5em ") EventStories
+                            img(src="/images/pic1.jpg" style="height: 100vh").d-block.w-100
+                            .carousel-caption(style="margin-bottom: 10em")
+                                h1(style="font-family: 'Ubuntu', sans-serif; font-size: 3em").mb-5 Electrifying Concert
+
+                        .carousel-item
+                            .carousel-caption(style="margin-bottom: 47em")
+                                h1(style="font-family: 'Fira Sans', sans-serif; text-align: center; font-size: 5em") EventStories
+                            img(src="/images/pic2.jpg" style="height: 100vh").d-block.w-100
+                            .carousel-caption(style="margin-bottom: 10em")
+                                h1(style="font-family: 'Ubuntu', sans-serif; font-size: 3em").mb-5 Magical Stargazing
+
+                        .carousel-item
+                            .carousel-caption(style="margin-bottom: 47em")
+                                h1(style="font-family: 'Fira Sans', sans-serif; text-align: center; color: black; font-size: 5em") EventStories
+                            img(src="/images/pic3.jpg" style="height: 100vh").d-block.w-100
+                            .carousel-caption(style="margin-bottom: 10em")
+                                h1(style="font-family: 'Ubuntu', sans-serif; font-size: 3em").mb-5 Spectacular Expedition            
+                    a(href="#main-slider" role="button" data-slide="prev").carousel-control-prev
+                        span.carousel-control-prev-icon(aria-hidden="true")
+                        span.sr-only Previous
+                    a(href="#main-slider" role="button" data-slide="next").carousel-control-next
+                        span.carousel-control-next-icon(aria-hidden="true")
+                        span.sr-only Next
+                    
     include includes/footer.pug

@@ -18,6 +18,7 @@ mongoose.connect("mongodb://localhost:27017/event_stories", {useNewUrlParser: tr
 mongoose.set('useCreateIndex', true);
 
 //Middleware
+app.use('/images', express.static(__dirname+'/public/assets'));
 app.use(methodOverride('_method'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(session({
@@ -25,6 +26,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }))
+
 app.use(passport.initialize());
 app.use(passport.session());
 
