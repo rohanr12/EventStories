@@ -5,19 +5,35 @@ var Comment = require('../models/comment');
 var ensureAuthenticated  = require('../auth').ensureAuthenticated;
 var eventOwnerCheck = require('../auth').eventOwnerCheck;
 var commentOwnerCheck = require('../auth').commentOwnerCheck;
+var regCheck = require('../utils').escapeString;
 
 //Event routes
-
 router.get('/', function(req, res){
-    Event.find({}, function(err, events){
-        if(err){
-            console.log(err);
-        }
-        else{
-            console.log("Events Retrieved");
-            return res.render('events/index', {events: events})
-        }
-    });
+    if(req.query.search_query){
+        const search_regex = new RegExp(regCheck(req.query.search_query), 'gi');
+        console.log(search_regex);
+        Event.find({name: search_regex})
+            .exec()
+            .then(foundEvents=>{
+                console.log('Search query successful');
+                return res.render("events/index", {events: foundEvents});
+            })
+            .catch(err=>{
+                console.log(err);
+                return res.redirect('../');
+            })
+    }
+    else{
+        Event.find({}, function(err, events){
+            if(err){
+                console.log(err);
+            }
+            else{
+                console.log("Events Retrieved");
+                return res.render('events/index', {events: events})
+            }
+        });
+    }
 }); 
 
 router.get('/new', ensureAuthenticated, function(req, res){

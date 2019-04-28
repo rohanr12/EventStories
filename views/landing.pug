@@ -5,9 +5,9 @@ html
     body
         block content
             .container-fluid.p-0(style="overflow: hidden; height: 88vh; position: relative")
-                form(method='get' action='#' style="position: absolute; z-index: 10; margin-top: 20%; margin-left: 37%; margin-right: 37%; width: 500px")
+                form(method='get' action='/events' style="position: absolute; z-index: 10; margin-top: 20%; margin-left: 37%; margin-right: 37%; width: 500px")
                     .form-group
-                        input(placeholder='Search for events that interest you' type='text' name='query').form-control
+                        input(placeholder='Search for events that interest you' type='text' name='search_query').form-control
                     .form-group
                         button(type='submit').form-control.btn.btn-success Search
                 .carousel.slide.carousel-fade(data-ride="carousel" id="main-slider")
