@@ -2,11 +2,13 @@ var express = require('express');
 var router = express.Router();
 var Event = require('../models/event');
 var Comment = require('../models/comment');
-var { ensureAuthenticated } = require('../auth');
+var ensureAuthenticated  = require('../auth').ensureAuthenticated;
+var eventOwnerCheck = require('../auth').eventOwnerCheck;
+var commentOwnerCheck = require('../auth').commentOwnerCheck;
 
 //Event routes
 
-router.get('/', ensureAuthenticated, function(req, res){
+router.get('/', function(req, res){
     Event.find({}, function(err, events){
         if(err){
             console.log(err);
@@ -22,7 +24,7 @@ router.get('/new', ensureAuthenticated, function(req, res){
     return res.render('events/new');
 });
 
-router.get('/:id', ensureAuthenticated, function(req, res){
+router.get('/:id', function(req, res){
     Event.findById(req.params.id).populate("comments").exec(function(err, foundEvent){
         if(err){
             console.log(err);
@@ -58,7 +60,7 @@ router.post('/', ensureAuthenticated, function(req, res){
     return res.redirect('/events');
 })
 
-router.get('/:id/edit', ensureAuthenticated, (req, res)=>{
+router.get('/:id/edit', ensureAuthenticated, eventOwnerCheck, (req, res)=>{
     Event.findById(req.params.id)
                 .exec()
                 .then(foundEvent=>{
@@ -70,7 +72,7 @@ router.get('/:id/edit', ensureAuthenticated, (req, res)=>{
                 })
 });
 
-router.put('/:id', ensureAuthenticated, (req, res)=>{
+router.put('/:id', ensureAuthenticated, eventOwnerCheck, (req, res)=>{
     Event.findByIdAndUpdate(req.params.id, req.body.event)
             .exec()
             .then(updatedEvent=>{
@@ -84,7 +86,7 @@ router.put('/:id', ensureAuthenticated, (req, res)=>{
             });
 });
 
-router.delete('/:id', (req, res)=>{
+router.delete('/:id', ensureAuthenticated, eventOwnerCheck, (req, res)=>{
     Event.findByIdAndDelete(req.params.id)
             .exec()
             .then(async deletedEvent=>{
@@ -142,7 +144,7 @@ router.post("/:id/comments", ensureAuthenticated, function(req, res){
     });  
 });
 
-router.get('/:id/comments/:comment_id/edit', ensureAuthenticated, (req, res)=>{
+router.get('/:id/comments/:comment_id/edit', ensureAuthenticated, commentOwnerCheck, (req, res)=>{
     Event.findById(req.params.id)
             .exec()
             .then(async (foundEvent)=>{
@@ -160,7 +162,7 @@ router.get('/:id/comments/:comment_id/edit', ensureAuthenticated, (req, res)=>{
             })
 });
 
-router.put('/:id/comments/:comment_id', async (req, res)=>{
+router.put('/:id/comments/:comment_id', ensureAuthenticated, commentOwnerCheck, async (req, res)=>{
     try{
         var retrievedEvent = await Event.findById(req.params.id).populate('comments');
         for(var i in retrievedEvent.comments){
@@ -185,7 +187,7 @@ router.put('/:id/comments/:comment_id', async (req, res)=>{
     }
 })
 
-router.delete('/:id/comments/:comment_id', (req, res)=>{
+router.delete('/:id/comments/:comment_id', ensureAuthenticated, commentOwnerCheck, (req, res)=>{
     Event.findById(req.params.id)
             .exec()
             .then(async retrievedEvent=>{

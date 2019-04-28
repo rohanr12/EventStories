@@ -7,10 +7,11 @@ block content
             .col-6(style="text-align: center")
                 h1=event.name
             .col-3
+                if user && user._id.toString() == event.author.id.toString()
                     .my-2
-                    a.btn.btn-xs.btn-warning(href="/events/"+event._id+"/edit") Edit
-                    form(action="/events/"+event._id+"?_method=DELETE" method="post" style="display: inline")
-                        button(type="submit").btn.btn-xs.btn-danger Delete
+                        a.btn.btn-xs.btn-warning(href="/events/"+event._id+"/edit") Edit
+                        form(action="/events/"+event._id+"?_method=DELETE" method="post" style="display: inline")
+                            button(type="submit").btn.btn-xs.btn-danger Delete
         .row.justify-content-center
             div(style="background-color: #F7F7F7").card
                 .card-body
@@ -36,10 +37,11 @@ block content
                                         .col-2
                                                 - var commentEditRoute = "/events/"+ event._id+ "/comments/" + comment._id + "/edit"
                                                 - var commentDeleteRoute = "/events/"+ event._id+ "/comments/" + comment._id + "?_method=DELETE"
-                                                form(method='get' action=commentEditRoute style="display: inline-block").ml-5
-                                                    button
-                                                        img(src="https://image.flaticon.com/icons/svg/1159/1159633.svg" width="20")
-                                                form(method='post' action=commentDeleteRoute style="display: inline-block").ml-2
-                                                    button
-                                                        img(src="https://image.flaticon.com/icons/svg/1214/1214428.svg" width="20")
-                                        
+                                                if user && user._id.toString() == comment.author.id.toString()
+                                                    form(method='get' action=commentEditRoute style="display: inline-block").ml-5
+                                                        button
+                                                            img(src="https://image.flaticon.com/icons/svg/1159/1159633.svg" width="20")
+                                                    form(method='post' action=commentDeleteRoute style="display: inline-block").ml-2
+                                                        button
+                                                            img(src="https://image.flaticon.com/icons/svg/1214/1214428.svg" width="20")
+                                            
